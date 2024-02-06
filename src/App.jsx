@@ -18,16 +18,35 @@ const Img = styled.img`
     margin: 100px auto 0 auto;
     display: block;
 `;
-/* const H1 = styled.h1`
+const H1 = styled.h1`
     font-family: "Lato", sans-serif;
     color: #fff;
-`; */
+	text-align: center;
+	font-weight: 700;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	font-size: 54px;
+	&::after{
+		content: '';
+		width: 100px;
+		height: 5px;
+		border-radius: 5px;
+		background-color: #66A2FE;
+		display: block;
+		margin: 10px auto 0;
+	}
+	@media (min-width: 992px){
+		margin-top: 80px;
+	}
+`;
 
 function App() {
     return (
         <Contenedor>
 			<Img src={ImagenCrypto} alt="Imagen crypto coins" />
-			
+			<div>
+				<H1>Contizar cryptos</H1>
+			</div>
         </Contenedor>
     );
 }
