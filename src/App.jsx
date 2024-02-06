@@ -3,6 +3,7 @@ import ImagenCrypto from "./assets/imagen-criptos.png";
 import "./App.css";
 import Form from "./components/Form";
 import { useEffect, useState } from "react";
+import ResponseDataCotizador from "./components/ResponseDataCotizador";
 
 const Contenedor = styled.div`
     max-width: 900px;
@@ -48,7 +49,7 @@ function App() {
 	useEffect(
 		() => {
 			isValid(stateCoinsSelection) && (
-				function(){
+				function () {
 					const cotizador = async () => {
 						const { stateCoins, stateCryptos } = stateCoinsSelection
 						const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${stateCryptos}&tsyms=${stateCoins}`;
@@ -61,7 +62,6 @@ function App() {
 			);
 		}, [stateCoinsSelection]
 	);
-	
 	const isValid = value => value && Object.keys(value).length > 0;
 
     return (
@@ -72,6 +72,10 @@ function App() {
 				<Form
 					setStateCoins={setStateCoins}
 				/>
+
+				{
+					isValid(viewCoins) && (<ResponseDataCotizador viewCoins={viewCoins} />)
+				}
 			</div>
         </Contenedor>
     );
