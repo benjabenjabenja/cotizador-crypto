@@ -24,8 +24,8 @@ const useSelectCoins = (label, options) => {
 
     const SelectCoins = () => (
         <>
-            <Label htmlFor="select-coins">{label}</Label>
-            <Select id="select-coins" value={state} onChange={ev => setState(ev.target.value)}>
+            <Label htmlFor={"select-coins-"+Date.now()}>{label}</Label>
+            <Select id={"select-coins-"+Date.now()} value={state} onChange={ev => setState(ev.target.value)}>
                 <option value="">--Seleccionar--</option>
                 {
                     options && options.map(o => (<option key={o.id} value={o.id}>{o.text}</option>))

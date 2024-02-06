@@ -43,22 +43,25 @@ const H1 = styled.h1`
 `;
 
 function App() {
-	const [stateCoins, setStateCoins] = useState({});
+	const [stateCoinsSelection, setStateCoins] = useState({});
+	const [viewCoins, setViewCoins] = useState({});
 	useEffect(
 		() => {
-			isValid(stateCoins) && (
+			isValid(stateCoinsSelection) && (
 				function(){
 					const cotizador = async () => {
-						const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${stateCoins.stateCryptos}&tsyms=${stateCoins.stateCoins}`;
+						const { stateCoins, stateCryptos } = stateCoinsSelection
+						const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${stateCryptos}&tsyms=${stateCoins}`;
 						const res = await fetch(url);
-						const json = await res.json();
-						console.log({json})
+						const json = (await res.json()).DISPLAY[stateCryptos][stateCoins];
+						setViewCoins(json);
 					}
 					cotizador();
 				}()
 			);
-		}, [stateCoins]
+		}, [stateCoinsSelection]
 	);
+	
 	const isValid = value => value && Object.keys(value).length > 0;
 
     return (
