@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import ImagenCrypto from "./assets/imagen-criptos.png";
 import "./App.css";
 import Form from "./components/Form";
+import { useEffect, useState } from "react";
 
 const Contenedor = styled.div`
     max-width: 900px;
@@ -42,12 +43,32 @@ const H1 = styled.h1`
 `;
 
 function App() {
+	const [stateCoins, setStateCoins] = useState({});
+	useEffect(
+		() => {
+			isValid(stateCoins) && (
+				function(){
+					const cotizador = async () => {
+						const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${stateCoins.stateCryptos}&tsyms=${stateCoins.stateCoins}`;
+						const res = await fetch(url);
+						const json = await res.json();
+						console.log({json})
+					}
+					cotizador();
+				}()
+			);
+		}, [stateCoins]
+	);
+	const isValid = value => value && Object.keys(value).length > 0;
+
     return (
         <Contenedor>
 			<Img src={ImagenCrypto} alt="Imagen crypto coins" />
 			<div>
 				<H1>Contizar cryptos</H1>
-				<Form />
+				<Form
+					setStateCoins={setStateCoins}
+				/>
 			</div>
         </Contenedor>
     );

@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import styled from '@emotion/styled';
 import useSelectCoins from '../hooks/useSelectCoins';
+import Error from './Error';
 import { coins } from '../data/coins';
 import { useEffect, useState } from 'react';
 
@@ -21,7 +23,7 @@ const InputSubmit = styled.input`
 	} 
 `;
 
-const Form = () => {
+const Form = ({setStateCoins}) => {
 	const [cryptos, setCryptos] = useState([]);
 	const [error, setError] = useState(false);
 
@@ -53,14 +55,18 @@ const Form = () => {
 			setError(true);
 			return;
 		}
-
-		console.log("passed")
+		error && setError(false);
+		const obj = {
+			stateCoins,
+			stateCryptos
+		}
+		setStateCoins(obj);
 	}
 
 	return (
 		<>
 			{
-				error && <p> Los campos son obligatorios</p>
+				error && <Error> Los campos son obligatorios</Error>
 			}
 			<form onSubmit={handleSubmit}>
 				<SelectCoins />
