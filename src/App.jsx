@@ -78,9 +78,10 @@ function App() {
 	useEffect(
 		() => {
 			isValid(stateCoinsSelection) && (
+				setLoading(true),
+				setViewCoins({}),
 				function () {
-					setLoading(true);
-					setViewCoins({});
+
 					const cotizador = async () => {
 						const { stateCoins, stateCryptos } = stateCoinsSelection
 						const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${stateCryptos}&tsyms=${stateCoins}`;
