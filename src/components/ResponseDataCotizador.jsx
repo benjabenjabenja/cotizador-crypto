@@ -21,13 +21,16 @@ const Price = styled.p`
     align-items: center;
     justify-content: space-between;
     color: #28b151;
+    font-size: 20px;
 `;
 
 const Open = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: #a4dd20;`;
+    color: #a4dd20;
+    font-size: 18px;
+`;
 
 const Img = styled.img`
     width: 150px;

@@ -43,21 +43,56 @@ const H1 = styled.h1`
 	}
 `;
 
+const Spinner = styled.span`
+	margin: 3rem 2rem;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	display: inline-block;
+	position: relative;
+	background: linear-gradient(0deg, rgba(128, 125, 124, 0.918) 33%, #fff 100%);
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
+	::after {
+		content: '';  
+		box-sizing: border-box;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 44px;
+		height: 44px;
+		border-radius: 50%;
+		background: #263238;
+	}
+@keyframes rotation {
+	0% { transform: rotate(0deg) }
+	100% { transform: rotate(360deg)}
+}
+`;
+
 function App() {
 	const [stateCoinsSelection, setStateCoins] = useState({});
 	const [viewCoins, setViewCoins] = useState({});
+	const [loading, setLoading] = useState(false);
 	useEffect(
 		() => {
 			isValid(stateCoinsSelection) && (
 				function () {
+					setLoading(true);
+					setViewCoins({});
 					const cotizador = async () => {
 						const { stateCoins, stateCryptos } = stateCoinsSelection
 						const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${stateCryptos}&tsyms=${stateCoins}`;
 						const res = await fetch(url);
 						const json = (await res.json()).DISPLAY[stateCryptos][stateCoins];
-						setViewCoins(json);
+						setTimeout(() => {
+							setViewCoins(json);
+							setLoading(false);
+						}, 1500);
 					}
 					cotizador();
+					
 				}()
 			);
 		}, [stateCoinsSelection]
@@ -68,11 +103,13 @@ function App() {
         <Contenedor>
 			<Img src={ImagenCrypto} alt="Imagen crypto coins" />
 			<div>
-				<H1>Contizar cryptos</H1>
+				<H1>Cotizar cryptos</H1>
 				<Form
 					setStateCoins={setStateCoins}
 				/>
-
+				{
+					loading && <Spinner />
+				}
 				{
 					isValid(viewCoins) && (<ResponseDataCotizador viewCoins={viewCoins} />)
 				}
